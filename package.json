@@ -1,8 +1,11 @@
 {
-    "scripts": {
-      "dev": "vuepress dev docs",
-      "build": "vuepress build docs"
-    },
-    "author": "hf",
-    "license": "MIT"
+  "scripts": {
+    "dev": "vuepress dev docs",
+    "build": "vuepress build docs"
+  },
+  "author": "hf",
+  "license": "MIT",
+  "devDependencies": {
+   
+  }
 }
