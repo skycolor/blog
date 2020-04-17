@@ -7,22 +7,33 @@ module.exports = {
     // 使用插件
     plugins: [],
     // 主题
+    theme: '@vuepress/blog',
     themeConfig: {
-        logo: '/img/logo.jpg',
-        // 导航栏
         nav: [
-            { text: '首页', link: '/' },
-            {
-                text: '编程',
-                items: [
-                    { text: '前端', link: '/programme/front/' },
-                    { text: '后台', link: '/programme/background/' },
-                    { text: '工具', link: '/programme/tool/' },
-                ]
-            },
-            { text: '读书笔记', link: '/reading/' },
-            { text: '小果冻', link: '/child/' },
-            { text: 'GitHub', link: 'https://github.com/skycolor' },
+          {
+            text: 'Blog',
+            link: '/',
+          },
+          {
+              text: 'child',
+              link: '/child/',
+          },
+          {
+            text: 'Tags',
+            link: '/tag/',
+          }
+        ],
+        directories: [
+          {
+            id: 'post',
+            dirname: '_posts',
+            path: '/',
+          },
+          {
+            id: 'test',
+            dirname: '_test2',
+            path: '/child/',
+          }
         ]
     }
 }
