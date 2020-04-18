@@ -17,3 +17,7 @@ yarn run build
 - 在gitpage的setting中，配置master branch /docs folder
 
 
+#### 3、说明
+该项目theme是基于官方主题@vuepress/theme-blog，进行的改造，去除了pwa的配置，其它的相同
+
+
