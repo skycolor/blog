@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>利用git Webhook完成文档站点自动化搭建 | HF&#39;s blog</title>
+    <meta name="generator" content="VuePress 1.4.1">
+    
+    <meta name="description" content="在git的项目配置中，有个Integrations的选项，可以配置一个接口URL，作为钩子来监听项目的push、commit、merge等操作
+
+作为文档监听的功能，本质是文档维护人员修改了md文件，然后提交到git，服务端的接口监听到这次push，拿到了修改的分支以及文件，以便进行接下来的操作
+
+此时服务端需要2个接口
+一个用来响应 Gitlab 的 Webhook
+另一个是用来进行文 ...">
+    <link rel="preload" href="/blog/dist/assets/css/0.styles.69c7f094.css" as="style"><link rel="preload" href="/blog/dist/assets/js/app.08c9e463.js" as="script"><link rel="preload" href="/blog/dist/assets/js/6.e2621f88.js" as="script"><link rel="preload" href="/blog/dist/assets/js/3.3f50efc4.js" as="script"><link rel="preload" href="/blog/dist/assets/js/14.09f17146.js" as="script"><link rel="prefetch" href="/blog/dist/assets/js/10.98e114b0.js"><link rel="prefetch" href="/blog/dist/assets/js/11.30f9edb4.js"><link rel="prefetch" href="/blog/dist/assets/js/12.5eb397cf.js"><link rel="prefetch" href="/blog/dist/assets/js/13.1ac39ffc.js"><link rel="prefetch" href="/blog/dist/assets/js/15.046336c7.js"><link rel="prefetch" href="/blog/dist/assets/js/16.e1e9ca74.js"><link rel="prefetch" href="/blog/dist/assets/js/17.a5ea8e04.js"><link rel="prefetch" href="/blog/dist/assets/js/4.1ec63670.js"><link rel="prefetch" href="/blog/dist/assets/js/5.e08834e2.js"><link rel="prefetch" href="/blog/dist/assets/js/7.7023cc94.js"><link rel="prefetch" href="/blog/dist/assets/js/8.042b6777.js"><link rel="prefetch" href="/blog/dist/assets/js/9.80c4ca2e.js"><link rel="prefetch" href="/blog/dist/assets/js/vuejs-paginate.6d8d5a62.js">
+    <link rel="stylesheet" href="/blog/dist/assets/css/0.styles.69c7f094.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="vuepress-theme-blog__global-layout"><section id="header-wrapper"><header id="header"><div class="header-wrapper"><div class="title"><img src="/img/logo.jpg" alt="logo" class="logo"> <a href="/blog/dist/" class="nav-link home-link">HF's blog </a></div> <div class="header-right-wrap"><ul class="nav"><li class="nav-item"><a href="/blog/dist/" class="nav-link">首页</a></li><li class="nav-item"><a href="/blog/dist/programme/" class="nav-link">编程</a></li><li class="nav-item"><a href="/blog/dist/reading/" class="nav-link">读书笔记</a></li><li class="nav-item"><a href="/blog/dist/child/" class="nav-link">小果冻</a></li><li class="nav-item"><a href="/blog/dist/tag/" class="nav-link">标签</a></li><li class="nav-item"><a href="https://github.com/skycolor" target="_blank" rel="noopener noreferrer" class="nav-link external">GitHub</a></li></ul> <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></div></header></section> <div id="mobile-header"><div class="mobile-header-bar"><div class="mobile-header-title"><a href="/blog/dist/" class="nav-link mobile-home-link">HF's blog </a> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></div> <div class="mobile-menu-wrapper"><hr class="menu-divider"> <ul class="mobile-nav"><li class="mobile-nav-item"><a href="/blog/dist/" class="nav-link">首页</a></li><li class="mobile-nav-item"><a href="/blog/dist/programme/" class="nav-link">编程</a></li><li class="mobile-nav-item"><a href="/blog/dist/reading/" class="nav-link">读书笔记</a></li><li class="mobile-nav-item"><a href="/blog/dist/child/" class="nav-link">小果冻</a></li><li class="mobile-nav-item"><a href="/blog/dist/tag/" class="nav-link">标签</a></li><li class="mobile-nav-item"><a href="https://github.com/skycolor" target="_blank" rel="noopener noreferrer" class="nav-link external">GitHub</a></li> <li class="mobile-nav-item"><!----></li></ul></div></div></div> <div class="content-wrapper"><div id="vuepress-theme-blog__post-layout"><article itemscope="itemscope" itemtype="https://schema.org/BlogPosting" class="vuepress-blog-theme-content"><header><h1 itemprop="name headline" class="post-title">
+        利用git Webhook完成文档站点自动化搭建
+      </h1> <div class="post-meta"><div itemprop="publisher author" itemtype="http://schema.org/Person" itemscope="itemscope" class="post-meta-author"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-navigation"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg> <span itemprop="name">hf</span> <span itemprop="address">   in WuHan</span></div> <div class="post-meta-date"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> <time pubdate itemprop="datePublished" datetime="2020-4-20">
+      Mon Apr 20 2020
+    </time></div> <ul itemprop="keywords" class="post-meta-tags"><li class="post-tag" data-v-ce6e288a><a href="/blog/dist/tag/git" data-v-ce6e288a> git </a></li></ul></div></header> <div itemprop="articleBody" class="content__default"><blockquote><p>在git的项目配置中，有个Integrations的选项，可以配置一个接口URL，作为钩子来监听项目的push、commit、merge等操作</p></blockquote> <p>作为文档监听的功能，本质是文档维护人员修改了md文件，然后提交到git，服务端的接口监听到这次push，拿到了修改的分支以及文件，以便进行接下来的操作</p> <p>此时服务端需要2个接口</p> <ul><li>一个用来响应 Gitlab 的 Webhook</li> <li>另一个是用来进行文档站点的更新</li></ul> <p>以egg为例</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> Application <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&quot;egg&quot;</span><span class="token punctuation">;</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">(</span>app<span class="token operator">:</span> Application<span class="token punctuation">)</span><span class="token operator">:</span> <span class="token parameter"><span class="token keyword">void</span></span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">{</span> controller<span class="token punctuation">,</span> router <span class="token punctuation">}</span> <span class="token operator">=</span> app<span class="token punctuation">;</span>
+  <span class="token comment">// gitlab webhook</span>
+  router<span class="token punctuation">.</span><span class="token function">post</span><span class="token punctuation">(</span><span class="token string">&quot;/api/hook&quot;</span><span class="token punctuation">,</span> controller<span class="token punctuation">.</span>document<span class="token punctuation">.</span>hook<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  router<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">&quot;/api/batchUpdate&quot;</span><span class="token punctuation">,</span> controller<span class="token punctuation">.</span>document<span class="token punctuation">.</span>batchUpdate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>然后在/api/hook接口中，可以进行下面的操作</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">const</span> <span class="token punctuation">{</span> commits<span class="token punctuation">,</span> ref <span class="token punctuation">}</span><span class="token operator">:</span> <span class="token punctuation">{</span> commits<span class="token operator">:</span> any<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span> ref<span class="token operator">:</span> string <span class="token punctuation">}</span> <span class="token operator">=</span> pushEvent<span class="token punctuation">;</span>
+<span class="token comment">// 过滤非master分支的push</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">isMaster</span><span class="token punctuation">(</span>ref<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// 修改(新增)文档列表</span>
+<span class="token keyword">const</span> updateList<span class="token operator">:</span> string<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token comment">// 删除文档列表</span>
+<span class="token keyword">const</span> removeList<span class="token operator">:</span> string<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+commits<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">item<span class="token operator">:</span> Commits</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">{</span> added<span class="token punctuation">,</span> modified<span class="token punctuation">,</span> removed <span class="token punctuation">}</span> <span class="token operator">=</span> item<span class="token punctuation">;</span>
+  updateList<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token operator">...</span>added<span class="token punctuation">,</span> <span class="token operator">...</span>modified<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  removeList<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token operator">...</span>removed<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// 过滤重复文件</span>
+<span class="token keyword">const</span> uniqueUpdateList<span class="token operator">:</span> string<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token keyword">new</span> <span class="token class-name">Set</span><span class="token punctuation">(</span>updateList<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> uniqueRemoveList<span class="token operator">:</span> string<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">...</span><span class="token keyword">new</span> <span class="token class-name">Set</span><span class="token punctuation">(</span>removeList<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+</code></pre></div><p>如果是非master分支，不管~若是master分支，拿到修改的文件，剩下的就是将md文件生成html了，如果采用模板渲染的方式还可以通过git的openapi拿到最新的文件内容，使用服务端html模板工具进行独立渲染</p> <p>但是如果想省事，可以使用vuepress工具~在监听到master上有md文件更新，则直接打包以及部署！相当于/api/hook接口中监听到需要更新文档，直接调用/api/batchUpdate，在/api/batchUpdate接口中调用vuepress官方建议的脚本，直接部署站点<code>（PS：缺点是每次更新所有文件，当文件多时会比较慢）</code></p> <div class="language- extra-class"><pre class="language-text"><code>#!/usr/bin/env sh
+
+# 确保脚本抛出遇到的错误
+set -e
+
+# 生成静态文件
+npm run docs:build
+
+# 进入生成的文件夹
+cd docs/.vuepress/dist
+
+# 如果是发布到自定义域名
+# echo 'www.example.com' &gt; CNAME
+
+git init
+git add -A
+git commit -m 'deploy'
+
+# 如果发布到 https://&lt;USERNAME&gt;.github.io
+# git push -f git@github.com:&lt;USERNAME&gt;/&lt;USERNAME&gt;.github.io.git master
+
+# 如果发布到 https://&lt;USERNAME&gt;.github.io/&lt;REPO&gt;
+# git push -f git@github.com:&lt;USERNAME&gt;/&lt;REPO&gt;.git master:gh-pages
+</code></pre></div></div> <footer><!----> <hr> <!----></footer></article> <!----></div></div></div><div class="global-ui"></div></div>
+    <script src="/blog/dist/assets/js/app.08c9e463.js" defer></script><script src="/blog/dist/assets/js/6.e2621f88.js" defer></script><script src="/blog/dist/assets/js/3.3f50efc4.js" defer></script><script src="/blog/dist/assets/js/14.09f17146.js" defer></script>
+  </body>
+</html>
