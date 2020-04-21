@@ -24,6 +24,7 @@
       </footer>
     </article>
     <Toc />
+    <canvas id="canvas" ></canvas>
   </div>
 </template>
 
@@ -31,14 +32,66 @@
 import Toc from '@theme/components/Toc.vue'
 import PostMeta from '@theme/components/PostMeta.vue'
 import { Comment } from '@vuepress/plugin-blog/lib/client/components'
-
+import Circle from '../utils/strokeCircle.js'
 export default {
+  data() {
+    return {
+      timer: null,
+      ctx: null,
+      circleArr: []
+    }
+  },
   components: {
     Toc,
     PostMeta,
     Comment,
     Newsletter: () => import('@theme/components/Newsletter.vue'),
   },
+  mounted() {
+    let _this = this
+    this.initCanvas()
+    window.addEventListener("mousemove", _this.handleMousemove , false)
+  },
+  destroyed(){
+    let _this = this
+    if(this.timer){
+      window.cancelAnimationFrame(this.timer)
+    }
+    window.removeEventListener("mousemove", _this.handleMousemove);
+  },
+  methods: {
+    initCanvas(){
+      window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+        window.webkitRequestAnimationFrame || window.msRequestAnimationFrame
+      let canvas = document.getElementById("canvas");
+      this.ctx = canvas.getContext("2d");
+      let w = canvas.width = canvas.offsetWidth
+      let h = canvas.height = canvas.offsetHeight
+      let draw = _ => {
+        this.ctx.clearRect(0, 0, w, h)
+        for (let i = 0; i < this.circleArr.length; i++) {
+          let item = this.circleArr[i]
+          item.update()
+          if(item.step <= 0 || item.r <= 0){
+              for (var j = 0; j < this.circleArr.length; j++) {
+                  if (this.circleArr[j] === item) {
+                    this.circleArr.splice(j, 1)
+                    break
+                  }
+              }
+          } else {
+            item.render()
+          }
+        }
+        this.timer = requestAnimationFrame(draw)
+      }
+      draw()
+    },
+    handleMousemove(e){
+      console.log('---move--');
+      this.circleArr.push(new Circle(e.clientX, e.clientY, this.ctx)) 
+    }
+  }
 }
 </script>
 
@@ -65,4 +118,13 @@ export default {
 
   .post-title
     margin-top 0
+
+canvas
+  position: fixed
+  width: 100%
+  height: 100%
+  top: 0
+  left: 0
+  pointer-events:none
+  z-index: 999
 </style>

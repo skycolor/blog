@@ -90,6 +90,7 @@ export default {
   data() {
     return {
       paginationComponent: null,
+      circles: [],
       timer: null
     }
   },
@@ -102,20 +103,21 @@ export default {
     this.paginationComponent = this.getPaginationComponent()
   },
   mounted() {
-    console.log('---mounted-');
-    
+    let _this = this
     this.initCanvas()
+    window.addEventListener("resize", _this.initCanvas , false)
   },
   destroyed(){
-    console.log('---destroyed-');
+    let _this = this
     if(this.timer){
       window.cancelAnimationFrame(this.timer)
     }
+    window.removeEventListener("resize", _this.initCanvas)
   },
   methods: {
     // 初始化canvas
     initCanvas(){
-      //更新页面用requestAnimationFrame替代setTimeout
+      this.circles = []
       window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
         window.webkitRequestAnimationFrame || window.msRequestAnimationFrame
       let canvas = document.getElementById('canvas')
@@ -124,17 +126,16 @@ export default {
       let w = 0
       let h = 0
       let r = 0
-      let circles = []
       let draw = _ => {
         ctx.clearRect(0, 0, w, h);
-        if(circles.length == 0) return;
-        for(let i = 0; i < circles.length; i++) {
-          let circle = circles[i];
+        if(this.circles.length == 0) return;
+        for(let i = 0; i < this.circles.length; i++) {
+          let circle = this.circles[i];
           if(circle.isDie) continue;
           circle.move();
           circle.drawCircle(ctx);
-          for(let j = i + 1; j < circles.length; j++) {
-            circle.drawLine(ctx, circles[j])
+          for(let j = i + 1; j < this.circles.length; j++) {
+            circle.drawLine(ctx, this.circles[j])
           }
         }
         this.timer = requestAnimationFrame(draw)
@@ -145,17 +146,13 @@ export default {
         r = Math.min(parseInt(window.innerWidth/120) , parseInt(window.innerHeight/120));
         circleNum =  parseInt(Math.min(window.innerWidth , window.innerHeight)/12)
         for(var i = 0; i < circleNum; i++) {
-          circles.push(new Circle(Math.random() * w, Math.random() * h , r, w, h));
+          this.circles.push(new Circle(Math.random() * w, Math.random() * h , r, w, h));
         }
         draw();
       }
-      window.onresize = _ => {
-        circles.splice(0, circles.length);
-        setTimeout(function() {
-          init();
-        }, 50)
-      }
-      init()
+      setTimeout(_ => {
+        init()
+      }, 50)
     },
     getPaginationComponent() {
       const n = THEME_BLOG_PAGINATION_COMPONENT
