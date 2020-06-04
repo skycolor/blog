@@ -88,7 +88,6 @@ export default {
       draw()
     },
     handleMousemove(e){
-      console.log('---move--');
       this.circleArr.push(new Circle(e.clientX, e.clientY, this.ctx)) 
     }
   }
