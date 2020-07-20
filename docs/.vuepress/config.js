@@ -1,29 +1,63 @@
 module.exports = {
     // 基础配置
-    title: 'HF\'s blog',
+    title: '文枫的小站',
     base: '/blog/dist/',
     dest: 'docs/dist',
     description: '记录一些个人前端文档',
     // 主题
+    theme: 'reco',
     themeConfig: {
-        logo: '/img/logo.jpg',
-        // 导航栏
         nav: [
-            { text: '首页', link: '/' },
-            { text: 'js基础', link: '/javascript/' },
-            { text: '工具', link: '/tool/' },
-            { text: '读书笔记', link: '/reading/' },
-            { text: '小果冻', link: '/child/' },
-            { text: '标签', link: '/tag/' },
-            { text: 'GitHub', link: 'https://github.com/skycolor' },
+            { text: 'Home', link: '/', icon: 'reco-home' },
+            { text: 'TimeLine', link: '/timeline/', icon: 'reco-date' }
         ],
-        // 文件流
-        directories: [
-            { id: 'javascript', title: 'js基础', dirname: '_javascript', path: '/javascript/' },
-            { id: 'tool', title: '工具', dirname: '_tool', path: '/tool/' },
-            { id: 'reading',title: '隨筆', dirname: '_reading', path: '/reading/' },
-            { id: 'child',title: '小果冻', dirname: '_child', path: '/child/' },
-        ],
-        smoothScroll: true
+        sidebar: {
+            '/views/sidebar/': [
+                '',
+                'bar1',
+                'bar2'
+            ],
+            '/views/sidebargroup/': [
+                {
+                    title: '基础',
+                    collapsable: true,
+                    children: [
+                        '',
+                        'bar1'
+                    ]
+                },
+                {
+                    title: '进阶',
+                    collapsable: true,
+                    children: [
+                        'bar2'
+                    ]
+                },
+            ]
+        },
+        type: 'blog',
+        // 博客设置
+        blogConfig: {
+            category: {
+                location: 2, // 在导航栏菜单中所占的位置，默认2
+                text: 'Category' // 默认 “分类”
+            },
+            tag: {
+                location: 3, // 在导航栏菜单中所占的位置，默认3
+                text: 'Tag' // 默认 “标签”
+            }
+        },
+        logo: '/logo.jpg',
+        authorAvatar: '/logo.jpg',
+        // 搜索设置
+        search: true,
+        searchMaxSuggestions: 10,
+        // 自动形成侧边导航
+        // sidebar: 'auto',
+        sidebarDepth: 4,
+        // 最后更新时间
+        lastUpdated: 'Last Updated',
+        // 作者
+        author: 'hf'
     }
 }
