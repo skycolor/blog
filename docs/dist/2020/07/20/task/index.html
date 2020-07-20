@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>运行机制——宏任务、微任务 | HF&#39;s blog</title>
+    <meta name="generator" content="VuePress 1.4.1">
+    
+    <meta name="description" content="JS是单线程运行，其中任务分为宏任务（macrotask）和微任务（microtask）
+macro-task(宏任务)：包括整体代码script，setTimeout，setInterval
+micro-task(微任务)：Promise，process.nextTick
+不同类型的任务会进入对应的Event Queue，比如setTimeout和setInterval会进入对应 ...">
+    <link rel="preload" href="/blog/dist/assets/css/0.styles.70f4c6c9.css" as="style"><link rel="preload" href="/blog/dist/assets/js/app.f9ad5f54.js" as="script"><link rel="preload" href="/blog/dist/assets/js/6.26a9e2be.js" as="script"><link rel="preload" href="/blog/dist/assets/js/3.64fa548b.js" as="script"><link rel="preload" href="/blog/dist/assets/js/14.c61899be.js" as="script"><link rel="prefetch" href="/blog/dist/assets/js/10.8f670b82.js"><link rel="prefetch" href="/blog/dist/assets/js/11.30f9edb4.js"><link rel="prefetch" href="/blog/dist/assets/js/12.54be043b.js"><link rel="prefetch" href="/blog/dist/assets/js/13.b16bbe5c.js"><link rel="prefetch" href="/blog/dist/assets/js/15.046336c7.js"><link rel="prefetch" href="/blog/dist/assets/js/16.f3a192be.js"><link rel="prefetch" href="/blog/dist/assets/js/17.f1643cd5.js"><link rel="prefetch" href="/blog/dist/assets/js/18.b3c4856a.js"><link rel="prefetch" href="/blog/dist/assets/js/19.98a9e327.js"><link rel="prefetch" href="/blog/dist/assets/js/4.8d2cd7d7.js"><link rel="prefetch" href="/blog/dist/assets/js/5.533d7d1b.js"><link rel="prefetch" href="/blog/dist/assets/js/7.3057a03b.js"><link rel="prefetch" href="/blog/dist/assets/js/8.042b6777.js"><link rel="prefetch" href="/blog/dist/assets/js/9.5c1f8fc5.js"><link rel="prefetch" href="/blog/dist/assets/js/vuejs-paginate.6d8d5a62.js">
+    <link rel="stylesheet" href="/blog/dist/assets/css/0.styles.70f4c6c9.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="vuepress-theme-blog__global-layout"><section id="header-wrapper"><header id="header"><div class="header-wrapper"><div class="title"><img src="/img/logo.jpg" alt="logo" class="logo"> <a href="/blog/dist/" class="nav-link home-link">HF's blog </a></div> <div class="header-right-wrap"><ul class="nav"><li class="nav-item"><a href="/blog/dist/" class="nav-link">首页</a></li><li class="nav-item"><a href="/blog/dist/javascript/" class="nav-link">js基础</a></li><li class="nav-item"><a href="/blog/dist/tool/" class="nav-link">工具</a></li><li class="nav-item"><a href="/blog/dist/reading/" class="nav-link">读书笔记</a></li><li class="nav-item"><a href="/blog/dist/child/" class="nav-link">小果冻</a></li><li class="nav-item"><a href="/blog/dist/tag/" class="nav-link">标签</a></li><li class="nav-item"><a href="https://github.com/skycolor" target="_blank" rel="noopener noreferrer" class="nav-link external">GitHub</a></li></ul> <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></div></header></section> <div id="mobile-header"><div class="mobile-header-bar"><div class="mobile-header-title"><a href="/blog/dist/" class="nav-link mobile-home-link">HF's blog </a> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></div> <div class="mobile-menu-wrapper"><hr class="menu-divider"> <ul class="mobile-nav"><li class="mobile-nav-item"><a href="/blog/dist/" class="nav-link">首页</a></li><li class="mobile-nav-item"><a href="/blog/dist/javascript/" class="nav-link">js基础</a></li><li class="mobile-nav-item"><a href="/blog/dist/tool/" class="nav-link">工具</a></li><li class="mobile-nav-item"><a href="/blog/dist/reading/" class="nav-link">读书笔记</a></li><li class="mobile-nav-item"><a href="/blog/dist/child/" class="nav-link">小果冻</a></li><li class="mobile-nav-item"><a href="/blog/dist/tag/" class="nav-link">标签</a></li><li class="mobile-nav-item"><a href="https://github.com/skycolor" target="_blank" rel="noopener noreferrer" class="nav-link external">GitHub</a></li> <li class="mobile-nav-item"><!----></li></ul></div></div></div> <div class="content-wrapper"><div id="vuepress-theme-blog__post-layout"><article itemscope="itemscope" itemtype="https://schema.org/BlogPosting" class="vuepress-blog-theme-content"><header><h1 itemprop="name headline" class="post-title">
+        运行机制——宏任务、微任务
+      </h1> <div class="post-meta"><div itemprop="publisher author" itemtype="http://schema.org/Person" itemscope="itemscope" class="post-meta-author"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-navigation"><polygon points="3 11 22 2 13 21 11 13 3 11"></polygon></svg> <span itemprop="name">hf</span> <span itemprop="address">   in WuHan</span></div> <div class="post-meta-date"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> <time pubdate itemprop="datePublished" datetime="2020-7-20">
+      Mon Jul 20 2020
+    </time></div> <ul itemprop="keywords" class="post-meta-tags"><li class="post-tag" data-v-ce6e288a><a href="/blog/dist/tag/js" data-v-ce6e288a> js </a></li></ul></div></header> <div itemprop="articleBody" class="content__default"><p>JS是单线程运行，其中任务分为宏任务（macrotask）和微任务（microtask）</p> <ul><li>macro-task(宏任务)：包括整体代码script，setTimeout，setInterval</li> <li>micro-task(微任务)：Promise，process.nextTick<br>
+不同类型的任务会进入对应的Event Queue，比如setTimeout和setInterval会进入对应的Event Queue<br>
+整体的执行顺序为：宏任务=&gt;微任务=&gt;宏任务=&gt;微任务，如此交替循环<br>
+比如下面代码</li></ul> <div class="language- extra-class"><pre class="language-text"><code>&lt;!-- 主线程直接执行 --&gt;
+async function async1() {
+    console.log('async1 start');
+    await async2();
+    &lt;!-- 微事件 --&gt;
+    console.log('async1 end');
+}
+async function async2() {
+    console.log('async2');
+}
+&lt;!-- 主线程直接执行 --&gt;
+console.log('script start');
+&lt;!-- 丢到宏事件队列中 --&gt;
+setTimeout(function() {
+    console.log('setTimeout');
+}, 0)
+&lt;!-- 主线程直接执行 --&gt;
+async1();
+&lt;!-- 主线程直接执行 --&gt;
+new Promise(function(resolve) {
+    console.log('promise1');
+    resolve();
+}).then(function() {
+    &lt;!-- 微事件 --&gt;
+    console.log('promise2');
+});
+&lt;!-- 主线程直接执行 --&gt;
+console.log('script end');
+</code></pre></div><ol><li>线程从上而下，依次定义函数~然后打印script start和执行setTimeout，setTimeout中的函数放到宏任务的Event Queue中</li> <li>接着执行async1方法，打印async1 start和async2，然后将async1方法中的await后的函数放入微任务中</li> <li>接着执行Promise方法，打印promise1，将then方法放入微任务，然后打印最后的script end</li> <li>第一轮宏任务执行完毕，开始执行微任务，按2 3中描述的就是依次打印async1 end和promise2</li> <li>微任务执行完毕，开始执行第二轮宏任务，即setTimeout中的setTimeout，此时已经无微任务了，代码执行完毕<br>
+最后依次打印script start、async1 start、async2、promise1、script end、async1 end、promise2、setTimeout</li></ol></div> <footer><!----> <hr> <!----></footer></article> <!----> <canvas id="canvas"></canvas></div></div></div><div class="global-ui"></div></div>
+    <script src="/blog/dist/assets/js/app.f9ad5f54.js" defer></script><script src="/blog/dist/assets/js/6.26a9e2be.js" defer></script><script src="/blog/dist/assets/js/3.64fa548b.js" defer></script><script src="/blog/dist/assets/js/14.c61899be.js" defer></script>
+  </body>
+</html>
