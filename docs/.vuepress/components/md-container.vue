@@ -166,6 +166,14 @@
 <script type="text/babel">
   import { stripScript, stripStyle, stripTemplate } from '../utils/util';
   export default {
+    props: {
+      options: {
+        type: Object,
+        default: () => {
+          return {}
+        }
+      }
+    },
     data() {
       return {
         codepen: {
