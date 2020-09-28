@@ -6063,6 +6063,13 @@ opencollective-postinstall@^2.0.2:
   resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.2.tgz#5657f1bede69b6e33a45939b061eb53d3c6c3a89"
   integrity sha512-pVOEP16TrAO2/fjej1IdOyupJY8KDUM1CvsaScRbw6oddvpQoOfGk4ywha0HKKVAD6RkW4x6Q+tNBwhf3Bgpuw==
 
+openteam-postinstall@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.npm.taobao.org/openteam-postinstall/download/openteam-postinstall-1.0.2.tgz#c31e98eda2c787caa8ce2b3572d665eb08cc9916"
+  integrity sha1-wx6Y7aLHh8qozis1ctZl6wjMmRY=
+  dependencies:
+    lodash "^4.17.15"
+
 opn@^5.5.0:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/opn/-/opn-5.5.0.tgz#fc7164fab56d235904c51c3b27da6758ca3b9bfc"
@@ -8786,6 +8793,15 @@ vuepress-plugin-feed@^0.1.8:
     lodash.trimstart "^4.5.1"
     remove-markdown "0.3.0"
     striptags "3.1.1"
+
+vuepress-plugin-helper-live2d@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.npm.taobao.org/vuepress-plugin-helper-live2d/download/vuepress-plugin-helper-live2d-1.0.2.tgz#6ba1c2f0a440c9263078ae5083de26fbbfac0759"
+  integrity sha1-a6HC8KRAySYweK5Qg94m+7+sB1k=
+  dependencies:
+    chalk "^2.4.2"
+    lodash "^4.17.15"
+    openteam-postinstall "^1.0.2"
 
 vuepress-plugin-mailchimp@^1.4.1:
   version "1.4.2"

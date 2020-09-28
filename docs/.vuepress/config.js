@@ -61,6 +61,7 @@ module.exports = {
       author: 'hf'
   },
   plugins: [
-    [require('./plugins/')]
+    [require('./plugins/')],
+    ['vuepress-plugin-helper-live2d']
   ]
 }
