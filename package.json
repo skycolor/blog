@@ -11,7 +11,7 @@
     "@vuepress/plugin-nprogress": "1.0.0",
     "@vuepress/plugin-search": "1.0.0",
     "dayjs": "^1.8.19",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "remove-markdown": "^0.3.0",
     "sass-loader": "^9.0.3",
     "vue-feather-icons": "^4.21.0",
